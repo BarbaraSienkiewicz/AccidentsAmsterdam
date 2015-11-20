@@ -3,6 +3,7 @@ library(RODBC)
 library(sp)
 library(rgdal)
 library(PBSmapping)
+library(maptools)
 
 ## scripts used
 source("R/JoinConditionWithMainQueries.R")
@@ -12,15 +13,15 @@ source("R/CalculateDensityPerNeighbourhood.R")
 
 ################################################################################################################
 ### Condition statement###
-Sceranio1 <- ""
-Sceranio2 <-"WHERE [a].[Dag_code] != 'ZA' AND [a].[Dag_code] != 'ZO' AND Uur = '8'"
-Sceranio3 <-"WHERE [a].[Dag_code] != 'ZA' AND [a].[Dag_code] != 'ZO' AND [a].[Dag_code] != 'WO' AND Uur = '14'"
-Sceranio4 <-"WHERE [a].[Dag_code] = 'WO' AND Uur = '12'"
-Sceranio5 <-"WHERE [a].[Antl_dod] != '0'"
+Scenario1 <- ""
+Scenario2 <-"WHERE [a].[Dag_code] != 'ZA' AND [a].[Dag_code] != 'ZO' AND Uur = '8'"
+Scenario3 <-"WHERE [a].[Dag_code] != 'ZA' AND [a].[Dag_code] != 'ZO' AND [a].[Dag_code] != 'WO' AND Uur = '14'"
+Scenario4 <-"WHERE [a].[Dag_code] = 'WO' AND Uur = '12'"
+Scenario5 <-"WHERE [a].[Antl_dod] != '0'"
 
 ################################################################################################################
 ############# USER INPUT #######################################################################################
-condition <- Sceranio1
+condition <- Scenario1
 SHPname <- "accidentsScenatio1"
 ################################################################################################################
 
@@ -102,6 +103,17 @@ coords <- cbind(x,y)
 
 ## Create accidents shapefie with name secified by user (in "USER INPUT") and save it in "Output" folder
 CreateSHP(mydata, coords, SHPname)
+
+accidentSpatialPoints <- mypoints
+
+AggregationList <- list.files("Data/AggregationLevels", pattern = '.shp')
+
+for (i in 1:length(AggregationList)) {
+  SHPfilename <- AggregationList[i]
+  Density(SHPfilename,accidentSpatialPoints)
+}
+
+
 
 
 
