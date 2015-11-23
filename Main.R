@@ -104,13 +104,12 @@ coords <- cbind(x,y)
 ## Create accidents shapefie with name secified by user (in "USER INPUT") and save it in "Output" folder
 CreateSHP(mydata, coords, SHPname)
 
-accidentSpatialPoints <- mypoints
-
+# Create list of the factor files
 AggregationList <- list.files("Data/AggregationLevels", pattern = '.shp')
 
 for (i in 1:length(AggregationList)) {
   SHPfilename <- AggregationList[i]
-  Density(SHPfilename,accidentSpatialPoints)
+  Density(SHPfilename)
 }
 
 

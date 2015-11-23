@@ -1,12 +1,14 @@
 library(sp)
 library(rgdal)
 library(shapefiles)
+library(maptools)
 
-Density <- function(SHPfilename, accidentSpatialPoints) {
-  
+
+Density <- function(SHPfilename) {
   ## RD New projection
   prj_string_RD <-CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 
                       +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+  
   ## Create a name of the table for current aggregation level (e.g. BuurtenPointDensity)
   tablename <- gsub(".shp","", SHPfilename)
   tablename <- paste(tablename,"PointDensity")
@@ -17,7 +19,6 @@ Density <- function(SHPfilename, accidentSpatialPoints) {
   dsn <- file.path("Data/AggregationLevels", SHPfilename)
   ogrListLayers(dsn) ## to find out what the layers are
   neigh <- readShapePoly(dsn)
-    #readOGR(dsn, layer = ogrListLayers(dsn))
   proj4string(neigh) <- prj_string_RD
   
   ## Create matrix containing all aggregation level ID's
@@ -29,18 +30,18 @@ Density <- function(SHPfilename, accidentSpatialPoints) {
   df <- data.frame()
   df <- ID
   
-  
-  ## Calculate the density of accidents per aggregation level
-  accidentsSpa <- accidentSpatialPoints
-  proj4string(accidentsSpa) <- prj_string_RD
+  ## Load accidents
+  dsn3 <- file.path("Output", "accidentsScenatio1.shp")
+  ogrListLayers(dsn3) ## to find out what the layers are
+  acci <- readShapePoints(dsn3)
+  proj4string(acci) <- prj_string_RD 
   
   ## Check CRS
   proj4string(neigh) 
-  proj4string(accidentsSpa)
-  identicalCRS(accidentsSpa,neigh)
+  proj4string(acci)
+  #identicalCRS(accidentsSpa,neigh)
   
-  
-  aggre <- over(accidentsSpa, neigh)
+  aggre <- over(acci, neigh)
   count <- table(aggre$ID, exclude = NULL)
   count <- data.frame(count)
   frequency <- count$Freq
@@ -49,7 +50,7 @@ Density <- function(SHPfilename, accidentSpatialPoints) {
   accidentsTab <- as.matrix(accidentsTab)
   df <- merge(ID,accidentsTab,by.x= "ID", by.y = "neighID", all = TRUE)
   colnames(df)[2] <- "accidents"
-
+  
   colnames(df)
   print(df)
   
@@ -57,31 +58,16 @@ Density <- function(SHPfilename, accidentSpatialPoints) {
   FactorList <- list.files("Data/Factors", pattern = '.shp')
   print(FactorList)
   
-  ## Calculate density of accidents and factors per aggregation level
-  for (i in 1:length(FactorList)) {
-
-    ## Select [i] factor
-    filename <- FactorList[i]
+  
+  for (j in 1:length(FactorList)) {    
+    ## Select [j] factor
+    filename <- FactorList[j]
     
-    ## Create [i] factor file directory
-    #fileDir <- paste("Data/Factors/",filename)
-    #fileDir <- gsub("\n","",fileDir)
-    #fileDir <- gsub(" ","",fileDir)
-    
-    ## Import [i] factor shp file
-    dsn2 <- file.path("Data/Factors",filename)
-    #ogrListLayers(dsn2)
-    factors <- readShapePoints(dsn2)
-    #readOGR(dsn2, layer = ogrListLayers(dsn2))
-    
-    #proj4string(factors) <- prj_string_RD
-
-    ## Select coordinates and create SpatialPoints
-    x <- factors$X
-    y <- factors$Y
-    coord <- cbind(x,y)
-    #factorsSpat <- spTransform(factorsSpat, CRS=prj_string_RD)
-    factorsSpat <- SpatialPoints(coord, proj4string=prj_string_RD)
+    ## Load factor
+    dsn2 <- file.path("Data/Factors", filename)
+    ogrListLayers(dsn2)
+    factor <- readShapePoints(dsn2)
+    proj4string(factor) <- prj_string_RD 
     
     # Check classes
     class(neigh)
@@ -89,28 +75,31 @@ Density <- function(SHPfilename, accidentSpatialPoints) {
     
     ## Check CRS
     proj4string(neigh) 
-    proj4string(factorsSpat)
-    identicalCRS(factorsSpat,neigh)
+    proj4string(factor)
     
     ## Count point in polygons
-    aggre <- over(factorsSpat, neigh)
+    aggre <- over(factor, neigh)
     count <- table(aggre$ID)
     count <- data.frame(count)
     frequency2 <- count$Freq
     neighID2 <- count$Var1
     
-    accidentsTab2 <- cbind(frequency2, neighID2)
-    accidentsTab2 <- as.matrix(accidentsTab2)
+    FreTab <- cbind(neighID2, frequency2)
+    FreTab <- as.matrix(FreTab)
     
-    df <- merge(df,accidentsTab2,by.x= "ID", by.y = "neighID2", all = TRUE)
+    #merged <- merge(df,factorTab,by.x= "ID", by.y = "neighID2", all = TRUE)
+    #factorDens <- merged[3]
+    
+    df <- merge(df,FreTab,by.x= "ID", by.y = "neighID2", all = TRUE)
     
     factorname <- gsub(".shp", "", filename)
-    colnames(df)[i+2] <- factorname
+    colnames(df)[j+2] <- factorname
   }
   
   OutputDir <- paste("Output/", tablename, ".csv")
   OutputDir <- gsub(" ", "", OutputDir)
   print(OutputDir)
-  output <- write.csv(df, OutputDir)
+  finaldf <- df[-nrow(df),]
+  finaldf[is.na(finaldf)] <- 0
+  output <- write.csv(finaldf, OutputDir)
 }
-
