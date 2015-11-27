@@ -3,10 +3,11 @@ library(rgdal)
 library(shapefiles)
 
 
-Density <- function(SHPfilename) {
+Density <- function(SHPfilename, SHPname) {
   ## RD New projection
-  prj_string_RD <-CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 
-                      +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
+  prj_string_RD <-CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 
+                       +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,
+                      4.0812 +units=m +no_defs")
   
   ## Create a name of the table for current aggregation level (e.g. BuurtenPointDensity)
   tablename <- gsub(".shp","", SHPfilename)
@@ -16,7 +17,7 @@ Density <- function(SHPfilename) {
   
   ## Load aggregation level shp
   dsn <- file.path("Data/AggregationLevels", SHPfilename)
-  ogrListLayers(dsn) ## to find out what the layers are
+  #ogrListLayers(dsn) ## to find out what the layers are
   neigh <- readShapePoly(dsn)
   proj4string(neigh) <- prj_string_RD
   
@@ -31,7 +32,7 @@ Density <- function(SHPfilename) {
   neighTab <- merge(neighTab,neigh,by.x= "ID", by.y = "ID", all = TRUE)
   
   ## Load accidents
-  dsn3 <- file.path("Output", "accidentsScenatio1.shp")
+  dsn3 <- file.path("Output", SHPname)
   #ogrListLayers(dsn3) ## to find out what the layers are
   acci <- readShapePoints(dsn3)
   proj4string(acci) <- prj_string_RD
@@ -51,7 +52,7 @@ Density <- function(SHPfilename) {
   
   ## Mere accident density (accidentTab) with neighTab
   df <- merge(neighTab,accidentsTab,by.x= "ID", by.y = "neighID", all = TRUE)
-  colnames(df)[7] <- "accidents"
+  colnames(df)[8] <- "accidents"
   
   print(df)
   
@@ -92,5 +93,9 @@ Density <- function(SHPfilename) {
   OutputDir <- gsub(" ", "", OutputDir)
   print(OutputDir)
   finaldf <- df[-nrow(df),]
-  output <- write.table(finaldf, OutputDir, sep = ';', na = '0', dec = ',', col.names = TRUE, row.names = FALSE)
+  write.table(finaldf, OutputDir, sep = ';', na = '0', dec = ',', col.names = TRUE, row.names = FALSE)
+  
+  filename <- gsub(".shp", "", SHPfilename)
+  neighDens <- merge(neigh, finaldf, key = "ID")
+  writeOGR(neighDens, dsn = 'Output', filename , driver = "ESRI Shapefile")
 }
