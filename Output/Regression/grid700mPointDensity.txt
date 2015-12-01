@@ -1,0 +1,40 @@
+[1] "grid700mRegression.txt"
+[1] "Output/Regression/grid700mRegression.txt"
+
+Call:
+lm(formula = accidents ~ BasSch + BicPat + Cross + ChildCare + 
+    HighUni + alkohol + BikBarr + stops + OSMcross + HostHot + 
+    MotJun + OSMcross2 + PriorRi + Scho + SpecScho + SecScho + 
+    TraffLig)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-447.9  -47.5   10.8   11.6 4770.1 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -10.792661  14.894559  -0.725   0.4690    
+BasSch      -16.585188  16.904385  -0.981   0.3270    
+BicPat       -0.155421   0.942046  -0.165   0.8690    
+Cross         1.100011   0.113580   9.685   <2e-16 ***
+ChildCare    -1.529180   6.734517  -0.227   0.8205    
+HighUni      12.592695  13.228202   0.952   0.3416    
+alkohol       0.998130  10.478275   0.095   0.9241    
+BikBarr      -8.475105   5.802400  -1.461   0.1447    
+stops         9.097294   4.245664   2.143   0.0326 *  
+OSMcross     -0.069587   1.359026  -0.051   0.9592    
+HostHot      -3.113589   5.300254  -0.587   0.5572    
+MotJun      -79.706619  59.415976  -1.342   0.1804    
+OSMcross2    -0.001847   0.063961  -0.029   0.9770    
+PriorRi       8.731352  19.533728   0.447   0.6551    
+Scho          6.200653   3.850554   1.610   0.1079    
+SpecScho     17.214815  53.114554   0.324   0.7460    
+SecScho       9.418440  26.690228   0.353   0.7243    
+TraffLig     -5.810908   6.994733  -0.831   0.4065    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 235.9 on 513 degrees of freedom
+Multiple R-squared:  0.2392,	Adjusted R-squared:  0.214 
+F-statistic: 9.486 on 17 and 513 DF,  p-value: < 2.2e-16
+

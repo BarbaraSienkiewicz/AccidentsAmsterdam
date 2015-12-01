@@ -118,7 +118,7 @@ CreateSHP(accidents, coords, SHPname)
 # Create list of the factor files
 AggregationList <- list.files("Data/AggregationLevels", pattern = '.shp')
 
-## Create csv tbles with density of factors and accients per aggregation level
+## Create csv tables and shapefiles with density of factors and accients per aggregation level
 for (i in 1:length(AggregationList)) {
   AggrSHPfilename <- AggregationList[i]
   Density(AggrSHPfilename, SHPname)
@@ -127,15 +127,17 @@ for (i in 1:length(AggregationList)) {
 table.list <- list.files("Output", pattern = ".csv")
 print(table.list)
 
-for (t in 1:length(table.list)) {
-  tableDir <- paste("Output/", table.list[t])
+for (i in 1:length(table.list)) {
+  tableDir <- paste("Output/", table.list[i])
   tableDir <- gsub(" ", "", tableDir)
   print(tableDir)
-  RegressionAnalysis(tableDir)
+  RegOutputDir <- paste("Output/Regression/", table.list[i], ".txt" )
+  RegOutputDir <- gsub(".csv", "", RegOutputDir)
+  RegOutputDir <- gsub(" ", "", RegOutputDir)
+  sink(RegOutputDir)
+  RegressionAnalysis(tableDir = tableDir)
+  sink()
 }
-
-
-
 
 
 # Pie chart of severity type
