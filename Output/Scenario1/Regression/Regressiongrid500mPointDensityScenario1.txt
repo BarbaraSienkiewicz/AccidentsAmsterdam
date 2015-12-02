@@ -1,0 +1,40 @@
+[1] "Scenario1/FactorDensity/grid500mRegressionScenario1.txt"
+[1] "Output/Regression/Scenario1/FactorDensity/grid500mRegressionScenario1.txt"
+
+Call:
+lm(formula = accidents ~ BasSch + BicPat + Cross + ChildCare + 
+    HighUni + alkohol + BikBarr + stops + OSMcross + HostHot + 
+    MotJun + OSMcross2 + PriorRi + Scho + SpecScho + SecScho + 
+    TraffLig)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-192.2  -21.0  -17.3   -0.1 4817.2 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  17.30224    7.61685   2.272   0.0233 *  
+BasSch      -11.86475   12.85188  -0.923   0.3561    
+BicPat        1.57584    0.84244   1.871   0.0617 .  
+Cross         0.57351    0.10336   5.549  3.7e-08 ***
+ChildCare    -0.50856    5.42016  -0.094   0.9253    
+HighUni       0.51698   11.20477   0.046   0.9632    
+alkohol       3.84484    8.51680   0.451   0.6518    
+BikBarr      -1.27124    4.72793  -0.269   0.7881    
+stops         1.90906    3.53430   0.540   0.5892    
+OSMcross     -0.12022    1.17662  -0.102   0.9186    
+HostHot      -1.23509    4.20637  -0.294   0.7691    
+MotJun       -3.30913   47.09371  -0.070   0.9440    
+OSMcross2    -0.01536    0.05868  -0.262   0.7936    
+PriorRi       2.39411   18.07265   0.132   0.8946    
+Scho          0.34666    3.33504   0.104   0.9172    
+SpecScho      9.79022   43.43526   0.225   0.8217    
+SecScho     -14.13224   23.94043  -0.590   0.5551    
+TraffLig      1.61993    6.04270   0.268   0.7887    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 167.1 on 980 degrees of freedom
+Multiple R-squared:  0.05888,	Adjusted R-squared:  0.04255 
+F-statistic: 3.606 on 17 and 980 DF,  p-value: 1.083e-06
+

@@ -1,5 +1,3 @@
-
-
 RegressionAnalysis <- function(tableDir) {
   
   table <- read.csv(tableDir, header=TRUE, sep=';')

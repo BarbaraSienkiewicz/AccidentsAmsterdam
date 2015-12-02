@@ -14,20 +14,25 @@ source("R/CreateAccidentsShp.R")
 source("R/CalculateDensityPerNeighbourhood.R")
 source("R/MultivariateRegression.R")
 
-
 ################################################################################################################
-### Condition statement###
+### WHERE statements###
 Scenario1 <- ""
 Scenario2 <-"WHERE [a].[Dag_code] != 'ZA' AND [a].[Dag_code] != 'ZO' AND Uur = '8'"
-Scenario3 <-"WHERE [a].[Dag_code] != 'ZA' AND [a].[Dag_code] != 'ZO' AND [a].[Dag_code] != 'WO' AND Uur = '14'"
+Scenario3 <-"WHERE [a].[Dag_code] != 'ZA' AND [a].[Dag_code] != 'ZO' AND [a].[Dag_code] != 'WO' AND Uur = '15'"
 Scenario4 <-"WHERE [a].[Dag_code] = 'WO' AND Uur = '12'"
 Scenario5 <-"WHERE [a].[Antl_dod] != '0'"
 
 ################################################################################################################
 ############# USER INPUT #######################################################################################
+## Select scenario or write your own WHERE statement
 condition <- Scenario1
-SHPname <- "accidentsScenario1.shp"
+## Define text which will be added to files name to diffrientiate scenarios
+ScenarioName <- "Scenario1"
 ################################################################################################################
+## Create output directory
+OutDir <- paste("Output/",ScenarioName)
+OutDir <- gsub(" ", "", OutDir)
+dir.create(OutDir)
 
 ## Main qeries (acidents, cbs, victims, parties)
 SQLaccidents <- "SELECT Vlk_nummer, Dag_code, Mnd_nummer, Jaar_vkl, Uur, Tijdstip, Ap3_code, Ap4_code, Ap5_code, Antl_dod, 
@@ -65,12 +70,11 @@ PartiesQ <- JoinCondition(SQLparties, condition)
 ## Connect to SQL Server Database
 connect <- odbcConnect("Data")
 
-## Derive tables
+## Derive tables by using created queries
 Accidents <- sqlQuery(connect, AccidentsQ)
 CBS <- sqlQuery(connect, CbsQ)
 Victims <- sqlQuery(connect, VictimsQ)
 Parties <- sqlQuery(connect, PartiesQ)
-
 
 ################################################################################################################
 ############# ACCIDENTS ########################################################################################
@@ -99,7 +103,7 @@ networkLevel <- Accidents$Niveaukop
 networkLevel2 <- Accidents$Wse_id
 maxspeed <- Accidents$Maxsnelhd
 weather <- Accidents$Wgd_code_1
-################################################################################################################
+
 ## Bind attributes
 accidents <- cbind(vlk, x, y, hour, time, day, month, year, severity3, severity4, severity5, casualties, fatalities, injuries, 
               emergencyVictims, otherInjured, parties, maneuver, AccNature, networkLevel, networkLevel2, maxspeed, weather)
@@ -112,8 +116,22 @@ x <- Accidents$X_COORD
 y <- Accidents$Y_COORD
 coords <- cbind(x,y)
 
+############# ACCIDENTS SHP ########################################################################################
+## Create "Accicents" directory
+AccDir <- paste(OutDir, "/AccidentsSHP")
+AccDir <- gsub(" ", "", AccDir)
+dir.create(AccDir)
+
 ## Create accidents shapefie with name secified by user (in "USER INPUT") and save it in "Output" folder
-CreateSHP(accidents, coords, SHPname)
+SHPname2 <- paste("accidents", ScenarioName, ".shp")
+SHPname2 <- gsub(" ", "", SHPname2)
+CreateSHP(accidents, coords, SHPname2, AccDir)
+
+############# FACTORS & ACCIDENTS DENSITY ########################################################################################
+## Create "FactorDensity" directory
+FacDir <- paste(OutDir, "/FactorDensity")
+FacDir <- gsub(" ", "", FacDir)
+dir.create(FacDir)
 
 # Create list of the factor files
 AggregationList <- list.files("Data/AggregationLevels", pattern = '.shp')
@@ -121,17 +139,25 @@ AggregationList <- list.files("Data/AggregationLevels", pattern = '.shp')
 ## Create csv tables and shapefiles with density of factors and accients per aggregation level
 for (i in 1:length(AggregationList)) {
   AggrSHPfilename <- AggregationList[i]
-  Density(AggrSHPfilename, SHPname)
+  Density(AggrSHPfilename, ScenarioName, FacDir)
 }
 
-table.list <- list.files("Output", pattern = ".csv")
+############# REGRESSION ########################################################################################
+## Create Regression directory
+RegDir <- paste(OutDir, "/Regression")
+RegDir <- gsub(" ", "", RegDir)
+dir.create(RegDir)
+
+## List csv files with density of accidents and factors per
+table.list <- list.files(FacDir, pattern = ".csv")
 print(table.list)
 
-for (i in 1:length(table.list)) {
-  tableDir <- paste("Output/", table.list[i])
+## Conduct regression and save the reports in "Regression" folder
+for (i in 1:length(table.list)){
+  tableDir <- paste(OutDir, "/FactorDensity/", table.list[i])
   tableDir <- gsub(" ", "", tableDir)
   print(tableDir)
-  RegOutputDir <- paste("Output/Regression/", table.list[i], ".txt" )
+  RegOutputDir <- paste(RegDir,"/Regression", table.list[i], ".txt")
   RegOutputDir <- gsub(".csv", "", RegOutputDir)
   RegOutputDir <- gsub(" ", "", RegOutputDir)
   sink(RegOutputDir)
@@ -139,62 +165,75 @@ for (i in 1:length(table.list)) {
   sink()
 }
 
-
-# Pie chart of severity type
-casA <- sum(casualties)
-fatA <- sum(fatalities)
-injA <- sum(injuries)
-emerA <- sum(emergencyVictims)
-othA <- sum(otherInjured)
-slicesA <- c(fatA, casA, injA, emerA, othA) 
-lblsA <- c("fatalities", "casualities", "injuries", "emergency casualties", "other injuries")
-pie3D(slicesA,labels=lblsA,explode = 0.1, main="Severity of accidents")
+############# PLOTS ########################################################################################
+## Create Regression directory
+PloDir <- paste(OutDir, "/Plots")
+PloDir <- gsub(" ", "", PloDir)
+dir.create(PloDir)
 
 ## Plot number of accidents per hour with severity3
-accidents <- arrange(accidents, severity3)
-toBeRemoved<-which(accidents$hour=="25")
-accidentsNOnulls <-accidents[-toBeRemoved,]
-a <- ggplot(accidentsNOnulls, aes(x=hour, y=hour, fill = severity3)) + labs(x="Hour" , y="Number of accidents", fill = NULL)
-b <- a + geom_bar(stat="identity", position = "stack")
-c <- b + scale_x_continuous(breaks=c(1:24))
+hourDir <- paste(PloDir, "/HoursPlot.png")
+hourDir <- gsub(" ", "", hourDir)
+png(filename=hourDir)
+a <- qplot(factor(hour), data=accidentsNOnulls, geom="bar", fill=factor(severity3), main="Number of accidents per hour with their severity") + labs(fill = "Severity") + scale_fill_hue()
+b <- a + scale_fill_manual(values = c("#990066", "#9999CC", "#66CC99"), labels = c("Fatalities", "Injuries", "Casualities"))
+c <- b + xlab("Hour") + ylab("Accident count")
 c
-
-HoursPlot
-
-png(filename="Output/Plots/HoursPlot.png")
-plot(HoursPlot)
 dev.off()
 
 
 ## Plot number of accidents per day
-daysplot <- qplot(day)
-png(filename="Output/Plots/DaysPlot.png")
+DayDir <- paste(PloDir, "/DaysPlot.png")
+DayDir <- gsub(" ", "", DayDir)
+daysplot <- qplot(day,main="Number of accidents per day",ylab = "Number of accidents", xlab = "Hour")
+png(filename=DayDir)
 plot(daysplot)
 dev.off()
 
-## Plot number of accidents per gender
-genderNOnulls <- gender[gender != "NULL"]
-qplot(genderNOnulls, xlab = "Gender", ylab = "Number of accidents")
-png(filename="Output/Plots/GenderPlot.png")
-plot(daysplot)
+## Plot number of accidents per road speed limit
+maxspeed2 <- accidents$maxspeed[!is.null(accidents$maxspeed)]
+speedplot <- qplot(maxspeed2)
+SpeedDir <- paste(PloDir, "/SpeedPlot.png")
+SpeedDir <- gsub(" ", "", SpeedDir)
+daysplot <- qplot(day,main="Number of accidents per Road Speed Limit",ylab = "Number of accidents", xlab = "Max Speed")
+png(filename=SpeedDir)
+plot(speedplot)
 dev.off()
 
 
 
-qplot(severity3)
+## Get rid od NA rows
+accidentsTime <-Accidents$Uur[!is.na(accidents$Uur)]
+accidentsTime <-as.numeric(Accidents$Uur)
 
 
-qplot(severity4)
 
 
-qplot(severity5)
+# Pie Chart from data frame with Appended Sample Sizes
+mytable <- table(CBS$Ap5_code)
+lblsC <- c("fatalities", "casualities", "injuries", "emergency casualties", "other injuries")
+lblsC <- paste(lblsC, "\n", mytable, sep="")
+pie(mytable, labels = lblsC, main="Pie Chart of Accidents Severity", col = c("#7B68EE", "#FFD700", "#48D1CC", "#C71585", "#E5E5E5")) 
+
+# Pie Chart from data frame with Appended Sample Sizes
+mytable <- table(CBS$Ap4_code)
+lblsC <- c("fatalities", "serious injuries", "light injuries", "material damage")
+lblsC <- paste(lblsC, "\n", mytable, sep="")
+pie(mytable, labels = lblsC, main="Pie Chart of Accidents Severity", col = c("#7B68EE", "#FFD700", "#48D1CC", "#E5E5E5")) 
+
+# Pie Chart from data frame with Appended Sample Sizes
+mytable <- table(CBS$Ap3_code)
+lblsC <- c("fatalities", "injuries","material damage")
+lblsC <- paste(lblsC, "\n", mytable, sep="")
+pie(mytable, labels = lblsC, main="Pie Chart of Accidents Severity", col = c("#7B68EE", "#48D1CC", "#E5E5E5"))
 
 
-qplot(maxspeed)
 
-
-qplot(weather)
-
+library(Hmisc)
+M <- cor(accidents)
+##rcorr(data, type="pearson")
+library('corrplot')
+corrplot(M, method = "circle")
 
 
 ################################################################################################################
@@ -232,7 +271,7 @@ age25_44 <- CBS$P_25_44_JR
 age45_64<- CBS$P_45_64_JR
 age65<- CBS$P_65_EO_JR
 marocco <- CBS$P_MAROKKO
-dutchIslandsC<- CBS$P_ANT_ARU
+NLIsl<- CBS$P_ANT_ARU
 surinam <- CBS$P_SURINAM
 turkey <- CBS$P_TURKIJE
 carsTot <- CBS$AUTO_TOT
@@ -252,25 +291,10 @@ cbs[cbs == -99999998] <- NA
 coordsC <- cbind(xC,yC)
 
 ## Create accidents shapefie with name secified by user (in "USER INPUT") and save it in "Output" folder
-CreateSHP(cbs, coordsC, "accidentsCBS")
+SHPname3 <- paste("accidentsCBS", ScenarioName, ".shp")
+SHPname3 <- gsub(" ", "", SHPname3)
+CreateSHP(cbs, coordsC, SHPname3, OutDir)
 
-# Pie chart of severity type
-casA <- sum(casualties)
-fatA <- sum(fatalities)
-injA <- sum(injuries)
-emerA <- sum(emergencyVictims)
-othA <- sum(otherInjured)
-slicesA <- c(fatA, casA, injA, emerA, othA) 
-lblsA <- c("fatalities", "casualities", "injuries", "emergency casualties", "other injuries")
-pie3D(slicesA,labels=lblsA,explode = 0.1, main="Severity of accidents")
-
-
-# Pie Chart from data frame with Appended Sample Sizes
-mytable <- table(CBS$Ap3_code)
-lblsC <- c("fatalities", "casualities", "injuries", "emergency casualties", "other injuries")
-lblsC <- paste(names(mytable), "\n", mytable, sep="")
-pie(mytable, labels = lblsC, 
-    main="Pie Chart of Severity") 
 
 ################################################################################################################
 ############# VICTIMS ##########################################################################################
@@ -300,36 +324,18 @@ networkLevel2V<-Victims$Wse_id
 maxspeedV <-Victims$Maxsnelhd
 weatherV<-Victims$Wgd_code_1
 ################################################################################################################
-
 victims <- cbind(vlk, birthdate, gender, severityV, dayV, monthV, yearV, hourV, timeV, severity3V, severity4V, severity5V,
                  fatalitiesV, casualtiesV, injuriesV, emergencyVictimsV, otherInjuredV, partiesV, maneuverV, networkLevelV,
                  networkLevel2V, maxspeedV, weatherV)
 
 victims <- data.frame(victims)
-class(victims)
-# Pie chart of severity type
-cas <- sum(casualtiesV)
-fat <- sum(fatalitiesV)
-inj <- sum(injuriesV)
-emer <- sum(emergencyVictimsV)
-oth <- sum(otherInjuredV)
-slices <- c(fat, cas, inj, emer, oth) 
-lbls <- c("fatalities", "casualities", "injuries", "emergency casualties", "other injuries")
-pie3D(slices,labels=lbls, explode = 0.1, main="Severity of accidents")
 
-
-frequency <- table(severity3V)
-
-library(plyr)
-ce <- arrange(victims, severity3V)
-ce <- ddply(ce, "severity3V", transform, label_y=cumsum(severity3V))
-ce
-
-## number of accidents per hour
-ggplot(victims, aes(x=hourV, y=hourV, fill=severity3V)) + geom_bar(stat="identity", width=0.7) + guides(fill=guide_legend(reverse=TRUE))
-+ geom_text(aes(y = label_y, label=frequency), vjust=-0.2)
-
-
+## Plot number of accidents per gender
+genderNOnulls <- gender[gender != "NULL"]
+genderPlot <- qplot(genderNOnulls, xlab = "Gender", ylab = "Number of accidents")
+png(filename="Output/Plots/GenderPlot.png")
+plot(genderPlot)
+dev.off()
 ################################################################################################################
 ############# PARTIES ##########################################################################################
 ################################################################################################################
@@ -366,44 +372,11 @@ parties <- cbind(vlk, partyP, ageP, agerangeP, nationalityP, genderP, blowTest, 
                  timeP, severity3P, severity4P, severity5P, fatalitiesP, casualtiesP, injuriesP, emergencyVictimsP, 
                  otherInjuredP, partiesP, maneuverP, networkLevelP, networkLevel2P, maxspeedP, weatherP)
 
-
 parties <- data.frame(parties)
-parties <- parties[parties$ageP!=NUL,]
-
-ggplot(parties, aes(ageP)) + geom_histogram()+ scale_x_continuous(breaks=c(1:100))
-
 ################################################################################################################
 ################################################################################################################
 
 
-library(Hmisc)
-M <- cor(accidents)
-##rcorr(data, type="pearson")
-library('corrplot') #package corrplot
-corrplot(M, method = "circle") #plot matrix
-
-## Describe data
-describe(victims)
 
 
-accidentspoints <- readShapePoints("Output/accidentsScenatio1.shp")
-plot(accidentspoints, col = "steelblue")
-title("Accidetns in Amsterdam")
 
-## Pearson's correlation
-cor(mydata, use="complete.obs", method = "pearson")
-library(spatialEco)
-new_shape <- point.in.poly(mypoints, grid)
-AggregationList <- list.files("Data/AggregationLevels", pattern = '.shp')
-print(AggregationList)
-
-
-## Get rid od NA rows
-accidentsTime <-Accidents$Uur[!is.na(accidents$Uur)]
-accidentsTime <-as.numeric(Accidents$Uur)
-den <- density.default(x=accidentsTime)
-plot(den, main = "Number of accidents per day time", xlab="time", ylab="number of accidents", type="l", xlim = c(0,23))
-axis(1, at=0:23)
-polygon(den,col="#821122", border="#cccccc")
-
-barplot()
