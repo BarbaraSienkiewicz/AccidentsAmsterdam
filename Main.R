@@ -25,9 +25,9 @@ Scenario5 <-"WHERE [a].[Antl_dod] != '0'"
 ################################################################################################################
 ############# USER INPUT #######################################################################################
 ## Select scenario or write your own WHERE statement
-condition <- Scenario1
+condition <- Scenario2
 ## Define text which will be added to files name to diffrientiate scenarios
-ScenarioName <- "Scenario1"
+ScenarioName <- "Scenario2"
 ################################################################################################################
 ## Create output directory
 OutDir <- paste("Output/",ScenarioName)
@@ -174,6 +174,7 @@ dir.create(PloDir)
 ## Plot number of accidents per hour with severity3
 hourDir <- paste(PloDir, "/HoursPlot.png")
 hourDir <- gsub(" ", "", hourDir)
+accidentsNOnulls <- data.frame(accidents[accidents != "NULL"])
 png(filename=hourDir)
 a <- qplot(factor(hour), data=accidentsNOnulls, geom="bar", fill=factor(severity3), main="Number of accidents per hour with their severity") + labs(fill = "Severity") + scale_fill_hue()
 b <- a + scale_fill_manual(values = c("#990066", "#9999CC", "#66CC99"), labels = c("Fatalities", "Injuries", "Casualities"))
@@ -195,7 +196,7 @@ SpeedDir <- gsub(" ", "", SpeedDir)
 SpeedPlot <-as.numeric(as.character(maxspeed))
 SpeedPlot <- data.frame(SpeedPlot)
 SpeedPlottotals <- table(SpeedPlot)
-rownames(SpeedPlottotals) <- c("15", "30",  "50",  "60",  "70",  "80",  "90", "100", "120", "130")
+#rownames(SpeedPlottotals) <- c("15", "30",  "50",  "60",  "70",  "80",  "90", "100", "120", "130")
 png(filename=SpeedDir)
 plo <- barplot(SpeedPlottotals,main="Number Accidents per Road Speed Limits", ylab="Numer of accidents",xlab="Road Speed Limits")
 dev.off()
@@ -207,7 +208,7 @@ accidentsTime <-as.numeric(Accidents$Uur)
 # Pie Chart from data frame with Appended Sample Sizes
 Sev5Dir <- paste(PloDir, "/Severity5Plot.png")
 Sev5Dir <- gsub(" ", "", Sev5Dir)
-mytable <- table(CBS$Ap5_code)
+mytable <- table(Accidents$Ap5_code)
 lblsC <- c("fatalities", "casualities", "injuries", "emergency casualties", "other injuries")
 lblsC <- paste(lblsC, "\n", mytable, sep="")
 png(filename=Sev5Dir)
@@ -217,7 +218,7 @@ dev.off()
 # Pie Chart from data frame with Appended Sample Sizes
 Sev4Dir <- paste(PloDir, "/Severity4Plot.png")
 Sev4Dir <- gsub(" ", "", Sev4Dir)
-mytable <- table(CBS$Ap4_code)
+mytable <- table(Accidents$Ap4_code)
 lblsC <- c("fatalities", "serious injuries", "light injuries", "material damage")
 lblsC <- paste(lblsC, "\n", mytable, sep="")
 png(filename=Sev4Dir)
@@ -227,7 +228,7 @@ dev.off()
 # Pie Chart from data frame with Appended Sample Sizes
 Sev3Dir <- paste(PloDir, "/Severity3Plot.png")
 Sev3Dir <- gsub(" ", "", Sev3Dir)
-mytable <- table(CBS$Ap3_code)
+mytable <- table(Accidents$Ap3_code)
 lblsC <- c("fatalities", "injuries","material damage")
 lblsC <- paste(lblsC, "\n", mytable, sep="")
 png(filename=Sev3Dir)
