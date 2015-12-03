@@ -25,9 +25,9 @@ Scenario5 <-"WHERE [a].[Antl_dod] != '0'"
 ################################################################################################################
 ############# USER INPUT #######################################################################################
 ## Select scenario or write your own WHERE statement
-condition <- Scenario2
+condition <- Scenario1
 ## Define text which will be added to files name to diffrientiate scenarios
-ScenarioName <- "Scenario2"
+ScenarioName <- "Scenario1"
 ################################################################################################################
 ## Create output directory
 OutDir <- paste("Output/",ScenarioName)
@@ -174,21 +174,22 @@ dir.create(PloDir)
 ## Plot number of accidents per hour with severity3
 hourDir <- paste(PloDir, "/HoursPlot.png")
 hourDir <- gsub(" ", "", hourDir)
-accidentsNOnulls <- data.frame(accidents[accidents != "NULL"])
-png(filename=hourDir)
+accidentsNOnulls <- data.frame(accidents$hour[accidents$hour != "NULL"])
+png(filename=hourDir, width = 1800, height = 800, units = "px")
 a <- qplot(factor(hour), data=accidentsNOnulls, geom="bar", fill=factor(severity3), main="Number of accidents per hour with their severity") + labs(fill = "Severity") + scale_fill_hue()
 b <- a + scale_fill_manual(values = c("#990066", "#9999CC", "#66CC99"), labels = c("Fatalities", "Injuries", "Casualities"))
-c <- b + xlab("Hour") + ylab("Accident count")
+c <- b + xlab("Hour") + ylab("Accident count") + xlim("0", "1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18" , "19", "20", "21", "22", "23")
 c
 dev.off()
 
 ## Plot number of accidents per day
-DayDir <- paste(PloDir, "/DaysPlot.png")
-DayDir <- gsub(" ", "", DayDir)
-daysplot <- qplot(day,main="Number of accidents per day",ylab = "Number of accidents", xlab = "Hour")
-png(filename=DayDir)
-plot(daysplot)
-dev.off()
+DayDir <- paste(PloDir, "/DaysPlot.png") 
+DayDir <- gsub(" ", "", DayDir) 
+daysplot <- qplot(day,main="Number of accidents per day",ylab = "Number of accidents", xlab = "Day") + xlim("MA","DI", "WO","DO",  "VR",  "ZA", "ZO")
+png(filename=DayDir) 
+plot(daysplot) 
+dev.off() 
+
 
 ## Plot number of accidents per road speed limit
 SpeedDir <- paste(PloDir, "/SpeedPlot.png")
@@ -200,10 +201,6 @@ SpeedPlottotals <- table(SpeedPlot)
 png(filename=SpeedDir)
 plo <- barplot(SpeedPlottotals,main="Number Accidents per Road Speed Limits", ylab="Numer of accidents",xlab="Road Speed Limits")
 dev.off()
-
-## Get rid od NA rows
-accidentsTime <-Accidents$Uur[!is.na(accidents$Uur)]
-accidentsTime <-as.numeric(Accidents$Uur)
 
 # Pie Chart from data frame with Appended Sample Sizes
 Sev5Dir <- paste(PloDir, "/Severity5Plot.png")
@@ -277,11 +274,11 @@ carsTot <- CBS$AUTO_TOT
 carsLand <- CBS$AUTO_LAND
 motor <- CBS$MOTOR_2W
 ################################################################################################################
-cbs <- cbind(vlk, xC, yC, dayC, monthC, yearC, hourC, timeC, severity3C, severity4C, severity5C,fatalitiesC, casualtiesC, injuriesC, emergencyVictimsC,
-                 otherInjuredC, partiesC, maneuverC, networkLevelC, networkLevel2C, maxspeedC, weatherC, populationC, womenC, menC, age0_14,
-                 age15_24, age25_44, age45_64, age65, marocco, dutchIslandsC, surinam, turkey, carsTot, carsLand, motor)
+#cbs <- cbind(vlk, xC, yC, dayC, monthC, yearC, hourC, timeC, severity3C, severity4C, severity5C,fatalitiesC, casualtiesC, injuriesC, emergencyVictimsC,
+#             otherInjuredC, partiesC, maneuverC, networkLevelC, networkLevel2C, maxspeedC, weatherC, populationC, womenC, menC, age0_14,
+#             age15_24, age25_44, age45_64, age65, marocco, dutchIslandsC, surinam, turkey, carsTot, carsLand, motor)
 
-cbs <- data.frame(cbs)
+cbs <- data.frame(CBS)
 
 # Change missing values (-99999998) into NA
 cbs[cbs == -99999998] <- NA
@@ -292,8 +289,11 @@ coordsC <- cbind(xC,yC)
 ## Create accidents shapefie with name secified by user (in "USER INPUT") and save it in "Output" folder
 SHPname3 <- paste("accidentsCBS", ScenarioName, ".shp")
 SHPname3 <- gsub(" ", "", SHPname3)
-CreateSHP(cbs, coordsC, SHPname3, OutDir)
+CBSdir <- paste(OutDir, "/AccidentsSHP")
+CBSdir <- gsub(" ", "", CBSdir)
+CreateSHP(cbs, coordsC, SHPname3, CBSdir)
 
+CreateSHP(accidents, coords, SHPname2, AccDir)
 ################################################################################################################
 ############# VICTIMS ##########################################################################################
 ################################################################################################################

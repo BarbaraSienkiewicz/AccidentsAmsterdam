@@ -38,8 +38,8 @@ RegressionAnalysis <- function(tableDir) {
   print(lmFileDir)
   
   ## Linear model
-  fitted.model <- lm(accidents ~ BasSch + BicPat + Cross + ChildCare + HighUni+ alkohol+ BikBarr + stops + 
-                       OSMcross + HostHot + MotJun + OSMcross2 + PriorRi + Scho + SpecScho + SecScho + TraffLig)
+  fitted.model <- lm(accidents ~ (BasSch + BicPat + Cross + ChildCare + HighUni+ alkohol+ BikBarr + stops + 
+                       OSMcross + HostHot + MotJun + OSMcross2 + PriorRi + Scho + SpecScho + SecScho + TraffLig)^2)
   print(summary(fitted.model))
 
 }

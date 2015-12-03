@@ -9,12 +9,9 @@ CreateSHP <- function(data, coordinates, filename, OutputDir) {
 
   mypoints <- SpatialPoints(coordinates, proj4string=prj_string_RD)
 
-  mypointsdf <- SpatialPointsDataFrame(
-  coordinates, data = data,
-  proj4string=prj_string_RD)
+  mypointsdf <- SpatialPointsDataFrame(coordinates, data = data, proj4string=prj_string_RD)
 
   filenameFin <- gsub(".shp", "", filename)
   
   writeOGR(mypointsdf, dsn = OutputDir, filenameFin , driver = "ESRI Shapefile")
 }
-

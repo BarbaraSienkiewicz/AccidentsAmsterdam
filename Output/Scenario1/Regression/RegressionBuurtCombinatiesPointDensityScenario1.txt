@@ -2,39 +2,172 @@
 [1] "Output/Regression/Scenario1/FactorDensity/BuurtCombinatiesRegressionScenario1.txt"
 
 Call:
-lm(formula = accidents ~ BasSch + BicPat + Cross + ChildCare + 
+lm(formula = accidents ~ (BasSch + BicPat + Cross + ChildCare + 
     HighUni + alkohol + BikBarr + stops + OSMcross + HostHot + 
     MotJun + OSMcross2 + PriorRi + Scho + SpecScho + SecScho + 
-    TraffLig)
+    TraffLig)^2)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--1570.71  -140.72    29.16   170.16  1998.95 
+ALL 97 residuals are 0: no residual degrees of freedom!
 
-Coefficients:
-              Estimate Std. Error t value Pr(>|t|)    
-(Intercept) -8.188e+01  1.294e+02  -0.633 0.528606    
-BasSch       3.707e+00  2.206e+01   0.168 0.866972    
-BicPat       6.026e-01  1.371e+00   0.440 0.661461    
-Cross        7.533e-01  3.417e-01   2.204 0.030401 *  
-ChildCare   -1.702e+00  9.207e+00  -0.185 0.853770    
-HighUni      1.704e+02  2.628e+01   6.481 7.19e-09 ***
-alkohol      5.592e+01  1.583e+01   3.533 0.000689 ***
-BikBarr      1.284e+00  1.128e+01   0.114 0.909599    
-stops       -1.633e+00  4.435e+00  -0.368 0.713617    
-OSMcross     1.050e-01  1.342e+00   0.078 0.937860    
-HostHot     -9.293e+00  7.703e+00  -1.206 0.231254    
-MotJun      -1.779e+02  4.328e+01  -4.109 9.63e-05 ***
-OSMcross2    5.199e-03  1.690e-01   0.031 0.975532    
-PriorRi     -2.790e+01  2.213e+01  -1.261 0.211131    
-Scho         9.770e+00  5.554e+00   1.759 0.082454 .  
-SpecScho     6.187e+01  7.020e+01   0.881 0.380820    
-SecScho      1.458e+01  3.565e+01   0.409 0.683559    
-TraffLig    -3.445e+00  8.958e+00  -0.385 0.701578    
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Coefficients: (57 not defined because of singularities)
+                      Estimate Std. Error t value Pr(>|t|)
+(Intercept)         -3.000e-06         NA      NA       NA
+BasSch               1.137e+06         NA      NA       NA
+BicPat               1.228e+01         NA      NA       NA
+Cross               -1.187e-01         NA      NA       NA
+ChildCare           -4.015e+05         NA      NA       NA
+HighUni             -4.905e+08         NA      NA       NA
+alkohol              1.451e+07         NA      NA       NA
+BikBarr             -4.259e+04         NA      NA       NA
+stops               -6.476e+01         NA      NA       NA
+OSMcross             1.498e+05         NA      NA       NA
+HostHot             -2.466e+07         NA      NA       NA
+MotJun              -5.045e+08         NA      NA       NA
+OSMcross2            1.015e-01         NA      NA       NA
+PriorRi              1.117e+08         NA      NA       NA
+Scho                -1.245e+02         NA      NA       NA
+SpecScho            -7.972e+07         NA      NA       NA
+SecScho              4.493e+06         NA      NA       NA
+TraffLig             9.009e+04         NA      NA       NA
+BasSch:BicPat       -5.493e+03         NA      NA       NA
+BasSch:Cross        -1.541e+02         NA      NA       NA
+BasSch:ChildCare    -2.286e+04         NA      NA       NA
+BasSch:HighUni      -1.069e+08         NA      NA       NA
+BasSch:alkohol      -1.678e+06         NA      NA       NA
+BasSch:BikBarr       3.729e+04         NA      NA       NA
+BasSch:stops        -2.284e+04         NA      NA       NA
+BasSch:OSMcross     -4.793e+04         NA      NA       NA
+BasSch:HostHot       1.523e+06         NA      NA       NA
+BasSch:MotJun        1.528e+08         NA      NA       NA
+BasSch:OSMcross2    -1.370e+02         NA      NA       NA
+BasSch:PriorRi       5.269e+07         NA      NA       NA
+BasSch:Scho         -2.849e+04         NA      NA       NA
+BasSch:SpecScho     -6.071e+07         NA      NA       NA
+BasSch:SecScho       1.693e+06         NA      NA       NA
+BasSch:TraffLig     -1.099e+04         NA      NA       NA
+BicPat:Cross        -3.716e-01         NA      NA       NA
+BicPat:ChildCare    -3.265e+02         NA      NA       NA
+BicPat:HighUni      -1.052e+06         NA      NA       NA
+BicPat:alkohol      -7.794e+04         NA      NA       NA
+BicPat:BikBarr      -9.669e+02         NA      NA       NA
+BicPat:stops         5.396e+00         NA      NA       NA
+BicPat:OSMcross      2.115e+03         NA      NA       NA
+BicPat:HostHot       1.288e+05         NA      NA       NA
+BicPat:MotJun       -1.301e+06         NA      NA       NA
+BicPat:OSMcross2     1.146e-01         NA      NA       NA
+BicPat:PriorRi      -1.319e+07         NA      NA       NA
+BicPat:Scho         -3.976e+00         NA      NA       NA
+BicPat:SpecScho      2.526e+07         NA      NA       NA
+BicPat:SecScho      -1.327e+05         NA      NA       NA
+BicPat:TraffLig     -7.048e+02         NA      NA       NA
+Cross:ChildCare      3.686e+02         NA      NA       NA
+Cross:HighUni        1.259e+06         NA      NA       NA
+Cross:alkohol       -6.053e+04         NA      NA       NA
+Cross:BikBarr        1.604e+02         NA      NA       NA
+Cross:stops          8.053e-02         NA      NA       NA
+Cross:OSMcross      -8.764e+00         NA      NA       NA
+Cross:HostHot        2.329e+04         NA      NA       NA
+Cross:MotJun         1.404e+05         NA      NA       NA
+Cross:OSMcross2      2.537e-04         NA      NA       NA
+Cross:PriorRi        9.523e+05         NA      NA       NA
+Cross:Scho           2.456e-01         NA      NA       NA
+Cross:SpecScho      -9.582e+05         NA      NA       NA
+Cross:SecScho        4.993e+03         NA      NA       NA
+Cross:TraffLig      -1.629e+02         NA      NA       NA
+ChildCare:HighUni    8.091e+07         NA      NA       NA
+ChildCare:alkohol   -2.529e+05         NA      NA       NA
+ChildCare:BikBarr    3.998e+03         NA      NA       NA
+ChildCare:stops      5.633e+03         NA      NA       NA
+ChildCare:OSMcross   1.674e+04         NA      NA       NA
+ChildCare:HostHot    4.359e+05         NA      NA       NA
+ChildCare:MotJun    -4.561e+07         NA      NA       NA
+ChildCare:OSMcross2 -1.601e+02         NA      NA       NA
+ChildCare:PriorRi   -2.938e+07         NA      NA       NA
+ChildCare:Scho       5.122e+03         NA      NA       NA
+ChildCare:SpecScho  -2.107e+06         NA      NA       NA
+ChildCare:SecScho   -7.518e+05         NA      NA       NA
+ChildCare:TraffLig   1.967e+04         NA      NA       NA
+HighUni:alkohol     -1.830e+07         NA      NA       NA
+HighUni:BikBarr      1.823e+07         NA      NA       NA
+HighUni:stops        1.294e+06         NA      NA       NA
+HighUni:OSMcross     2.782e+06         NA      NA       NA
+HighUni:HostHot      4.947e+06         NA      NA       NA
+HighUni:MotJun       6.111e+07         NA      NA       NA
+HighUni:OSMcross2   -6.146e+05         NA      NA       NA
+HighUni:PriorRi      9.106e+06         NA      NA       NA
+HighUni:Scho        -1.388e+05         NA      NA       NA
+HighUni:SpecScho     4.143e+07         NA      NA       NA
+HighUni:SecScho     -1.092e+07         NA      NA       NA
+HighUni:TraffLig    -2.362e+06         NA      NA       NA
+alkohol:BikBarr     -1.942e+06         NA      NA       NA
+alkohol:stops        3.845e+05         NA      NA       NA
+alkohol:OSMcross    -2.363e+04         NA      NA       NA
+alkohol:HostHot      3.227e+06         NA      NA       NA
+alkohol:MotJun              NA         NA      NA       NA
+alkohol:OSMcross2    2.850e+04         NA      NA       NA
+alkohol:PriorRi             NA         NA      NA       NA
+alkohol:Scho        -5.472e+05         NA      NA       NA
+alkohol:SpecScho            NA         NA      NA       NA
+alkohol:SecScho      5.966e+06         NA      NA       NA
+alkohol:TraffLig            NA         NA      NA       NA
+BikBarr:stops        2.261e+03         NA      NA       NA
+BikBarr:OSMcross    -2.266e+04         NA      NA       NA
+BikBarr:HostHot             NA         NA      NA       NA
+BikBarr:MotJun              NA         NA      NA       NA
+BikBarr:OSMcross2           NA         NA      NA       NA
+BikBarr:PriorRi             NA         NA      NA       NA
+BikBarr:Scho                NA         NA      NA       NA
+BikBarr:SpecScho            NA         NA      NA       NA
+BikBarr:SecScho             NA         NA      NA       NA
+BikBarr:TraffLig            NA         NA      NA       NA
+stops:OSMcross              NA         NA      NA       NA
+stops:HostHot               NA         NA      NA       NA
+stops:MotJun                NA         NA      NA       NA
+stops:OSMcross2             NA         NA      NA       NA
+stops:PriorRi               NA         NA      NA       NA
+stops:Scho                  NA         NA      NA       NA
+stops:SpecScho              NA         NA      NA       NA
+stops:SecScho               NA         NA      NA       NA
+stops:TraffLig              NA         NA      NA       NA
+OSMcross:HostHot            NA         NA      NA       NA
+OSMcross:MotJun             NA         NA      NA       NA
+OSMcross:OSMcross2          NA         NA      NA       NA
+OSMcross:PriorRi            NA         NA      NA       NA
+OSMcross:Scho               NA         NA      NA       NA
+OSMcross:SpecScho           NA         NA      NA       NA
+OSMcross:SecScho            NA         NA      NA       NA
+OSMcross:TraffLig           NA         NA      NA       NA
+HostHot:MotJun              NA         NA      NA       NA
+HostHot:OSMcross2           NA         NA      NA       NA
+HostHot:PriorRi             NA         NA      NA       NA
+HostHot:Scho                NA         NA      NA       NA
+HostHot:SpecScho            NA         NA      NA       NA
+HostHot:SecScho             NA         NA      NA       NA
+HostHot:TraffLig            NA         NA      NA       NA
+MotJun:OSMcross2            NA         NA      NA       NA
+MotJun:PriorRi              NA         NA      NA       NA
+MotJun:Scho                 NA         NA      NA       NA
+MotJun:SpecScho             NA         NA      NA       NA
+MotJun:SecScho              NA         NA      NA       NA
+MotJun:TraffLig             NA         NA      NA       NA
+OSMcross2:PriorRi           NA         NA      NA       NA
+OSMcross2:Scho              NA         NA      NA       NA
+OSMcross2:SpecScho          NA         NA      NA       NA
+OSMcross2:SecScho           NA         NA      NA       NA
+OSMcross2:TraffLig          NA         NA      NA       NA
+PriorRi:Scho                NA         NA      NA       NA
+PriorRi:SpecScho            NA         NA      NA       NA
+PriorRi:SecScho             NA         NA      NA       NA
+PriorRi:TraffLig            NA         NA      NA       NA
+Scho:SpecScho               NA         NA      NA       NA
+Scho:SecScho                NA         NA      NA       NA
+Scho:TraffLig               NA         NA      NA       NA
+SpecScho:SecScho            NA         NA      NA       NA
+SpecScho:TraffLig           NA         NA      NA       NA
+SecScho:TraffLig            NA         NA      NA       NA
 
-Residual standard error: 395.7 on 79 degrees of freedom
-Multiple R-squared:  0.5856,	Adjusted R-squared:  0.4965 
-F-statistic: 6.568 on 17 and 79 DF,  p-value: 2.291e-09
+Residual standard error: NaN on 0 degrees of freedom
+Multiple R-squared:      1,	Adjusted R-squared:    NaN 
+F-statistic:   NaN on 96 and 0 DF,  p-value: NA
 

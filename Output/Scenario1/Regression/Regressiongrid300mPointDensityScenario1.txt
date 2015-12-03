@@ -2,39 +2,175 @@
 [1] "Output/Regression/Scenario1/FactorDensity/grid300mRegressionScenario1.txt"
 
 Call:
-lm(formula = accidents ~ BasSch + BicPat + Cross + ChildCare + 
+lm(formula = accidents ~ (BasSch + BicPat + Cross + ChildCare + 
     HighUni + alkohol + BikBarr + stops + OSMcross + HostHot + 
     MotJun + OSMcross2 + PriorRi + Scho + SpecScho + SecScho + 
-    TraffLig)
+    TraffLig)^2)
 
 Residuals:
    Min     1Q Median     3Q    Max 
--116.2  -10.2   -1.9   -1.9 4461.6 
+-136.3   -8.2   -0.4   -0.4 4446.6 
 
 Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  1.91654    2.43110   0.788    0.431    
-BasSch      -4.27146    7.78416  -0.549    0.583    
-BicPat       0.05094    0.55150   0.092    0.926    
-Cross        0.85976    0.08482  10.136   <2e-16 ***
-ChildCare    0.90985    4.02599   0.226    0.821    
-HighUni     -0.53342    9.79194  -0.054    0.957    
-alkohol     -0.57128    6.24591  -0.091    0.927    
-BikBarr     -0.84484    3.52807  -0.239    0.811    
-stops       -2.66112    2.46426  -1.080    0.280    
-OSMcross     0.25462    0.72448   0.351    0.725    
-HostHot     -0.46460    3.47352  -0.134    0.894    
-MotJun       9.50730   29.08487   0.327    0.744    
-OSMcross2    0.10365    0.04830   2.146    0.032 *  
-PriorRi     -2.98095   10.19428  -0.292    0.770    
-Scho         0.08719    2.46762   0.035    0.972    
-SpecScho    -9.92455   20.96756  -0.473    0.636    
-SecScho      1.75595   15.63308   0.112    0.911    
-TraffLig    -0.70188    4.17665  -0.168    0.867    
+                      Estimate Std. Error t value Pr(>|t|)    
+(Intercept)          3.683e-01  2.653e+00   0.139    0.890    
+BasSch              -7.519e+00  6.318e+01  -0.119    0.905    
+BicPat               2.643e+00  2.086e+00   1.267    0.205    
+Cross                1.022e+00  1.233e-01   8.292   <2e-16 ***
+ChildCare            5.710e+00  2.101e+01   0.272    0.786    
+HighUni             -1.573e+02  8.326e+03  -0.019    0.985    
+alkohol              3.398e+00  1.432e+03   0.002    0.998    
+BikBarr             -6.074e+00  2.538e+01  -0.239    0.811    
+stops               -1.521e+00  8.308e+00  -0.183    0.855    
+OSMcross             1.005e+00  6.009e+00   0.167    0.867    
+HostHot              2.759e+01  1.077e+02   0.256    0.798    
+MotJun              -9.241e+02  4.695e+03  -0.197    0.844    
+OSMcross2            6.409e-02  6.982e-02   0.918    0.359    
+PriorRi              1.889e+02  4.326e+03   0.044    0.965    
+Scho                 2.387e+00  8.743e+00   0.273    0.785    
+SpecScho             1.666e+03  2.058e+04   0.081    0.935    
+SecScho             -8.918e+01  1.847e+03  -0.048    0.961    
+TraffLig            -8.630e+00  2.014e+01  -0.429    0.668    
+BasSch:BicPat        1.094e+00  2.085e+00   0.525    0.600    
+BasSch:Cross         1.346e-01  6.159e-01   0.219    0.827    
+BasSch:ChildCare    -4.921e-01  1.402e+01  -0.035    0.972    
+BasSch:HighUni      -8.116e+00  4.998e+02  -0.016    0.987    
+BasSch:alkohol       8.444e+00  1.538e+02   0.055    0.956    
+BasSch:BikBarr       6.701e-01  7.214e+00   0.093    0.926    
+BasSch:stops        -7.688e-01  1.301e+01  -0.059    0.953    
+BasSch:OSMcross     -4.807e-01  1.867e+00  -0.257    0.797    
+BasSch:HostHot      -1.355e+01  5.686e+01  -0.238    0.812    
+BasSch:MotJun        4.180e+02  5.926e+03   0.071    0.944    
+BasSch:OSMcross2     1.620e-01  5.124e-01   0.316    0.752    
+BasSch:PriorRi      -1.185e+01  1.396e+02  -0.085    0.932    
+BasSch:Scho         -2.270e+00  9.348e+00  -0.243    0.808    
+BasSch:SpecScho     -4.341e+02  5.531e+03  -0.078    0.937    
+BasSch:SecScho       1.716e+01  1.843e+02   0.093    0.926    
+BasSch:TraffLig     -5.956e-01  1.649e+01  -0.036    0.971    
+BicPat:Cross        -4.029e-02  3.087e-02  -1.305    0.192    
+BicPat:ChildCare    -5.850e-01  9.782e-01  -0.598    0.550    
+BicPat:HighUni       1.725e+01  4.358e+02   0.040    0.968    
+BicPat:alkohol       2.884e+00  3.553e+01   0.081    0.935    
+BicPat:BikBarr      -4.535e-01  9.368e-01  -0.484    0.628    
+BicPat:stops        -7.055e-03  5.132e-01  -0.014    0.989    
+BicPat:OSMcross     -8.246e-02  2.058e-01  -0.401    0.689    
+BicPat:HostHot      -1.915e-01  4.165e+00  -0.046    0.963    
+BicPat:MotJun        1.878e+01  1.271e+03   0.015    0.988    
+BicPat:OSMcross2    -8.134e-03  1.303e-02  -0.624    0.533    
+BicPat:PriorRi      -1.349e+00  1.741e+01  -0.077    0.938    
+BicPat:Scho         -1.580e-01  4.970e-01  -0.318    0.751    
+BicPat:SpecScho     -2.931e+01  9.053e+02  -0.032    0.974    
+BicPat:SecScho      -5.009e+00  5.068e+01  -0.099    0.921    
+BicPat:TraffLig      3.291e-01  8.146e-01   0.404    0.686    
+Cross:ChildCare     -1.648e-01  2.817e-01  -0.585    0.559    
+Cross:HighUni        8.024e-01  1.038e+02   0.008    0.994    
+Cross:alkohol       -6.814e-01  8.494e+00  -0.080    0.936    
+Cross:BikBarr       -5.087e-02  2.714e-01  -0.187    0.851    
+Cross:stops         -1.680e-01  1.268e-01  -1.325    0.185    
+Cross:OSMcross      -1.440e-02  7.867e-02  -0.183    0.855    
+Cross:HostHot       -2.703e-01  1.451e+00  -0.186    0.852    
+Cross:MotJun         2.460e+01  2.292e+02   0.107    0.915    
+Cross:OSMcross2      3.849e-04  1.856e-03   0.207    0.836    
+Cross:PriorRi       -2.042e-01  6.301e+00  -0.032    0.974    
+Cross:Scho           2.145e-02  1.253e-01   0.171    0.864    
+Cross:SpecScho      -2.409e+01  3.091e+02  -0.078    0.938    
+Cross:SecScho        6.989e-01  6.207e+00   0.113    0.910    
+Cross:TraffLig      -7.890e-02  2.785e-01  -0.283    0.777    
+ChildCare:HighUni   -1.650e+01  2.371e+03  -0.007    0.994    
+ChildCare:alkohol   -2.589e+01  2.969e+02  -0.087    0.931    
+ChildCare:BikBarr   -1.563e+00  8.110e+00  -0.193    0.847    
+ChildCare:stops     -5.395e-01  4.012e+00  -0.134    0.893    
+ChildCare:OSMcross   1.061e-01  1.421e+00   0.075    0.940    
+ChildCare:HostHot   -4.164e+00  2.025e+01  -0.206    0.837    
+ChildCare:MotJun     3.929e+02  2.303e+03   0.171    0.865    
+ChildCare:OSMcross2  8.788e-03  1.476e-01   0.060    0.953    
+ChildCare:PriorRi    4.416e+01  1.806e+02   0.244    0.807    
+ChildCare:Scho       3.759e-01  4.219e+00   0.089    0.929    
+ChildCare:SpecScho  -4.459e+02  1.445e+03  -0.309    0.758    
+ChildCare:SecScho    3.505e+01  2.931e+02   0.120    0.905    
+ChildCare:TraffLig   3.342e+00  6.962e+00   0.480    0.631    
+HighUni:alkohol      6.553e+01  3.189e+02   0.205    0.837    
+HighUni:BikBarr     -4.534e+01  2.233e+03  -0.020    0.984    
+HighUni:stops        1.229e+01  1.949e+02   0.063    0.950    
+HighUni:OSMcross    -1.531e+01  2.605e+02  -0.059    0.953    
+HighUni:HostHot      2.905e+01  6.460e+02   0.045    0.964    
+HighUni:MotJun      -3.213e+02  4.616e+03  -0.070    0.945    
+HighUni:OSMcross2    4.621e+00  1.425e+02   0.032    0.974    
+HighUni:PriorRi      1.536e+02  3.456e+03   0.044    0.965    
+HighUni:Scho        -7.318e+00  7.952e+02  -0.009    0.993    
+HighUni:SpecScho     2.398e+02  3.196e+03   0.075    0.940    
+HighUni:SecScho     -3.273e+01  8.308e+02  -0.039    0.969    
+HighUni:TraffLig    -8.699e+01  3.442e+03  -0.025    0.980    
+alkohol:BikBarr     -8.192e+00  6.284e+01  -0.130    0.896    
+alkohol:stops        2.474e+01  2.716e+02   0.091    0.927    
+alkohol:OSMcross    -2.148e-01  1.707e+01  -0.013    0.990    
+alkohol:HostHot      6.393e+00  1.517e+02   0.042    0.966    
+alkohol:MotJun       1.077e+02  2.547e+03   0.042    0.966    
+alkohol:OSMcross2   -1.461e-01  3.640e+00  -0.040    0.968    
+alkohol:PriorRi     -1.334e+01  2.480e+02  -0.054    0.957    
+alkohol:Scho        -9.447e+00  9.863e+01  -0.096    0.924    
+alkohol:SpecScho    -1.367e+02  2.363e+03  -0.058    0.954    
+alkohol:SecScho      1.945e+01  4.677e+02   0.042    0.967    
+alkohol:TraffLig    -2.883e+01  2.621e+02  -0.110    0.912    
+BikBarr:stops        4.011e-01  4.426e+00   0.091    0.928    
+BikBarr:OSMcross     1.488e-01  6.651e-01   0.224    0.823    
+BikBarr:HostHot      2.640e+00  3.247e+01   0.081    0.935    
+BikBarr:MotJun      -6.545e+01  1.313e+03  -0.050    0.960    
+BikBarr:OSMcross2    8.133e-04  2.331e-01   0.003    0.997    
+BikBarr:PriorRi      9.159e+00  5.093e+01   0.180    0.857    
+BikBarr:Scho         2.582e+00  4.861e+00   0.531    0.595    
+BikBarr:SpecScho     1.086e+02  2.800e+03   0.039    0.969    
+BikBarr:SecScho     -4.846e+00  1.114e+02  -0.044    0.965    
+BikBarr:TraffLig     2.666e+00  8.861e+00   0.301    0.764    
+stops:OSMcross      -2.191e-01  1.275e+00  -0.172    0.864    
+stops:HostHot        1.348e+00  1.871e+01   0.072    0.943    
+stops:MotJun         9.787e+01  6.222e+02   0.157    0.875    
+stops:OSMcross2      4.912e-02  6.564e-02   0.748    0.454    
+stops:PriorRi       -1.283e+01  1.288e+02  -0.100    0.921    
+stops:Scho           2.925e-01  2.397e+00   0.122    0.903    
+stops:SpecScho      -8.159e+01  4.722e+02  -0.173    0.863    
+stops:SecScho       -3.067e+01  2.472e+02  -0.124    0.901    
+stops:TraffLig       3.685e+00  5.316e+00   0.693    0.488    
+OSMcross:HostHot     3.001e-01  3.278e+00   0.092    0.927    
+OSMcross:MotJun     -6.094e+00  1.127e+02  -0.054    0.957    
+OSMcross:OSMcross2   3.213e-03  3.680e-02   0.087    0.930    
+OSMcross:PriorRi    -1.833e+00  1.665e+01  -0.110    0.912    
+OSMcross:Scho       -1.129e-01  7.898e-01  -0.143    0.886    
+OSMcross:SpecScho    1.780e+01  3.108e+02   0.057    0.954    
+OSMcross:SecScho     3.165e+00  5.591e+01   0.057    0.955    
+OSMcross:TraffLig    8.397e-02  8.871e-01   0.095    0.925    
+HostHot:MotJun      -1.090e+02  2.562e+03  -0.043    0.966    
+HostHot:OSMcross2   -9.918e-02  7.866e-01  -0.126    0.900    
+HostHot:PriorRi     -7.958e+00  6.290e+01  -0.127    0.899    
+HostHot:Scho        -1.582e+00  1.215e+01  -0.130    0.896    
+HostHot:SpecScho     1.005e+02  2.106e+03   0.048    0.962    
+HostHot:SecScho      5.675e+00  1.674e+02   0.034    0.973    
+HostHot:TraffLig    -4.944e+00  5.761e+01  -0.086    0.932    
+MotJun:OSMcross2    -2.615e+01  3.432e+02  -0.076    0.939    
+MotJun:PriorRi      -1.732e+02  4.847e+03  -0.036    0.971    
+MotJun:Scho         -4.591e+01  2.510e+03  -0.018    0.985    
+MotJun:SpecScho     -5.702e+02  1.425e+04  -0.040    0.968    
+MotJun:SecScho       2.726e+02  6.695e+03   0.041    0.968    
+MotJun:TraffLig      2.174e+02  5.571e+03   0.039    0.969    
+OSMcross2:PriorRi   -3.955e-01  3.322e+00  -0.119    0.905    
+OSMcross2:Scho      -3.151e-02  6.962e-02  -0.453    0.651    
+OSMcross2:SpecScho   2.159e+01  2.150e+02   0.100    0.920    
+OSMcross2:SecScho    5.954e-01  8.500e+00   0.070    0.944    
+OSMcross2:TraffLig  -6.526e-02  1.716e-01  -0.380    0.704    
+PriorRi:Scho         1.119e+01  9.131e+01   0.123    0.902    
+PriorRi:SpecScho    -9.290e+00  1.951e+03  -0.005    0.996    
+PriorRi:SecScho     -1.614e+02  4.119e+03  -0.039    0.969    
+PriorRi:TraffLig    -3.060e-01  2.394e+02  -0.001    0.999    
+Scho:SpecScho        4.215e+01  1.854e+03   0.023    0.982    
+Scho:SecScho         1.306e+01  1.418e+02   0.092    0.927    
+Scho:TraffLig       -1.440e+00  3.621e+00  -0.398    0.691    
+SpecScho:SecScho    -1.141e+02  3.552e+03  -0.032    0.974    
+SpecScho:TraffLig   -1.743e+02  2.902e+03  -0.060    0.952    
+SecScho:TraffLig     3.159e+01  1.475e+02   0.214    0.830    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 92.29 on 2616 degrees of freedom
-Multiple R-squared:  0.05365,	Adjusted R-squared:  0.0475 
-F-statistic: 8.724 on 17 and 2616 DF,  p-value: < 2.2e-16
+Residual standard error: 94.28 on 2480 degrees of freedom
+Multiple R-squared:  0.06391,	Adjusted R-squared:  0.006162 
+F-statistic: 1.107 on 153 and 2480 DF,  p-value: 0.182
 
