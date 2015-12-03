@@ -181,7 +181,6 @@ c <- b + xlab("Hour") + ylab("Accident count")
 c
 dev.off()
 
-
 ## Plot number of accidents per day
 DayDir <- paste(PloDir, "/DaysPlot.png")
 DayDir <- gsub(" ", "", DayDir)
@@ -191,50 +190,49 @@ plot(daysplot)
 dev.off()
 
 ## Plot number of accidents per road speed limit
-maxspeed2 <- accidents$maxspeed[!is.null(accidents$maxspeed)]
-speedplot <- qplot(maxspeed2)
 SpeedDir <- paste(PloDir, "/SpeedPlot.png")
 SpeedDir <- gsub(" ", "", SpeedDir)
-daysplot <- qplot(day,main="Number of accidents per Road Speed Limit",ylab = "Number of accidents", xlab = "Max Speed")
+SpeedPlot <-as.numeric(as.character(maxspeed))
+SpeedPlot <- data.frame(SpeedPlot)
+SpeedPlottotals <- table(SpeedPlot)
+rownames(SpeedPlottotals) <- c("15", "30",  "50",  "60",  "70",  "80",  "90", "100", "120", "130")
 png(filename=SpeedDir)
-plot(speedplot)
+plo <- barplot(SpeedPlottotals,main="Number Accidents per Road Speed Limits", ylab="Numer of accidents",xlab="Road Speed Limits")
 dev.off()
-
-
 
 ## Get rid od NA rows
 accidentsTime <-Accidents$Uur[!is.na(accidents$Uur)]
 accidentsTime <-as.numeric(Accidents$Uur)
 
-
-
-
 # Pie Chart from data frame with Appended Sample Sizes
+Sev5Dir <- paste(PloDir, "/Severity5Plot.png")
+Sev5Dir <- gsub(" ", "", Sev5Dir)
 mytable <- table(CBS$Ap5_code)
 lblsC <- c("fatalities", "casualities", "injuries", "emergency casualties", "other injuries")
 lblsC <- paste(lblsC, "\n", mytable, sep="")
+png(filename=Sev5Dir)
 pie(mytable, labels = lblsC, main="Pie Chart of Accidents Severity", col = c("#7B68EE", "#FFD700", "#48D1CC", "#C71585", "#E5E5E5")) 
+dev.off()
 
 # Pie Chart from data frame with Appended Sample Sizes
+Sev4Dir <- paste(PloDir, "/Severity4Plot.png")
+Sev4Dir <- gsub(" ", "", Sev4Dir)
 mytable <- table(CBS$Ap4_code)
 lblsC <- c("fatalities", "serious injuries", "light injuries", "material damage")
 lblsC <- paste(lblsC, "\n", mytable, sep="")
+png(filename=Sev4Dir)
 pie(mytable, labels = lblsC, main="Pie Chart of Accidents Severity", col = c("#7B68EE", "#FFD700", "#48D1CC", "#E5E5E5")) 
+dev.off()
 
 # Pie Chart from data frame with Appended Sample Sizes
+Sev3Dir <- paste(PloDir, "/Severity3Plot.png")
+Sev3Dir <- gsub(" ", "", Sev3Dir)
 mytable <- table(CBS$Ap3_code)
 lblsC <- c("fatalities", "injuries","material damage")
 lblsC <- paste(lblsC, "\n", mytable, sep="")
+png(filename=Sev3Dir)
 pie(mytable, labels = lblsC, main="Pie Chart of Accidents Severity", col = c("#7B68EE", "#48D1CC", "#E5E5E5"))
-
-
-
-library(Hmisc)
-M <- cor(accidents)
-##rcorr(data, type="pearson")
-library('corrplot')
-corrplot(M, method = "circle")
-
+dev.off()
 
 ################################################################################################################
 ############# CBS ##############################################################################################
@@ -295,7 +293,6 @@ SHPname3 <- paste("accidentsCBS", ScenarioName, ".shp")
 SHPname3 <- gsub(" ", "", SHPname3)
 CreateSHP(cbs, coordsC, SHPname3, OutDir)
 
-
 ################################################################################################################
 ############# VICTIMS ##########################################################################################
 ################################################################################################################
@@ -331,11 +328,37 @@ victims <- cbind(vlk, birthdate, gender, severityV, dayV, monthV, yearV, hourV, 
 victims <- data.frame(victims)
 
 ## Plot number of accidents per gender
+GenDir <- paste(PloDir, "/GenderPlot.png")
+GenDir <- gsub(" ", "", GenDir)
 genderNOnulls <- gender[gender != "NULL"]
-genderPlot <- qplot(genderNOnulls, xlab = "Gender", ylab = "Number of accidents")
-png(filename="Output/Plots/GenderPlot.png")
-plot(genderPlot)
+png(filename=GenDir)
+qplot(genderNOnulls, xlab = "Gender", ylab = "Number of accidents")
 dev.off()
+
+## Calculate age of the victims
+birthyear <- c()
+for (i in 1:length(birthdate)) {
+  birthyear[i] <- substr(birthdate[i], 1, 4)
+}
+birthyearnum <- data.frame(as.numeric(birthyear))
+
+ageTab <- c()
+for(i in 1:length(birthyearnum)){
+  ageTab[i] <- 2015 - birthyearnum
+}
+ageTab
+
+AgeDir <- paste(PloDir, "/VictimsAgePlot.png")
+AgeDir <- gsub(" ", "", AgeDir)
+ageTab2 <- data.frame(ageTab)
+ageTabFre <- table(ageTab2)
+ageTabFre 
+class(ageTabFre)
+png(filename=AgeDir,width = 1800, height = 800, units = "px" )
+barplot(ageTabFre,main="Number victims per age", ylab="Numer of victims",xlab="Age")
+dev.off()
+
+
 ################################################################################################################
 ############# PARTIES ##########################################################################################
 ################################################################################################################
@@ -375,8 +398,3 @@ parties <- cbind(vlk, partyP, ageP, agerangeP, nationalityP, genderP, blowTest, 
 parties <- data.frame(parties)
 ################################################################################################################
 ################################################################################################################
-
-
-
-
-

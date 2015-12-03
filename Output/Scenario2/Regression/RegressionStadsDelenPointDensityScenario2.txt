@@ -1,0 +1,37 @@
+[1] "Scenario2/FactorDensity/StadsDelenRegressionScenario2.txt"
+[1] "Output/Regression/Scenario2/FactorDensity/StadsDelenRegressionScenario2.txt"
+
+Call:
+lm(formula = accidents ~ BasSch + BicPat + Cross + ChildCare + 
+    HighUni + alkohol + BikBarr + stops + OSMcross + HostHot + 
+    MotJun + OSMcross2 + PriorRi + Scho + SpecScho + SecScho + 
+    TraffLig)
+
+Residuals:
+ALL 8 residuals are 0: no residual degrees of freedom!
+
+Coefficients: (10 not defined because of singularities)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -360.21478         NA      NA       NA
+BasSch         1.60407         NA      NA       NA
+BicPat        -0.17612         NA      NA       NA
+Cross          0.06075         NA      NA       NA
+ChildCare      3.00888         NA      NA       NA
+HighUni       23.00560         NA      NA       NA
+alkohol      -10.13950         NA      NA       NA
+BikBarr        1.51495         NA      NA       NA
+stops               NA         NA      NA       NA
+OSMcross            NA         NA      NA       NA
+HostHot             NA         NA      NA       NA
+MotJun              NA         NA      NA       NA
+OSMcross2           NA         NA      NA       NA
+PriorRi             NA         NA      NA       NA
+Scho                NA         NA      NA       NA
+SpecScho            NA         NA      NA       NA
+SecScho             NA         NA      NA       NA
+TraffLig            NA         NA      NA       NA
+
+Residual standard error: NaN on 0 degrees of freedom
+Multiple R-squared:      1,	Adjusted R-squared:    NaN 
+F-statistic:   NaN on 7 and 0 DF,  p-value: NA
+

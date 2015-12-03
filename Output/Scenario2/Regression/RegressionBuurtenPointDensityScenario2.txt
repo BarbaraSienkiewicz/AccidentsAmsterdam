@@ -1,0 +1,40 @@
+[1] "Scenario2/FactorDensity/BuurtenRegressionScenario2.txt"
+[1] "Output/Regression/Scenario2/FactorDensity/BuurtenRegressionScenario2.txt"
+
+Call:
+lm(formula = accidents ~ BasSch + BicPat + Cross + ChildCare + 
+    HighUni + alkohol + BikBarr + stops + OSMcross + HostHot + 
+    MotJun + OSMcross2 + PriorRi + Scho + SpecScho + SecScho + 
+    TraffLig)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-19.341  -3.109  -1.465   1.999 145.873 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.207e+00  9.024e-01   2.445 0.014849 *  
+BasSch       8.049e-02  6.612e-01   0.122 0.903172    
+BicPat       1.076e-01  4.315e-02   2.493 0.013035 *  
+Cross       -4.478e-05  8.070e-03  -0.006 0.995575    
+ChildCare    4.183e-01  3.166e-01   1.321 0.187104    
+HighUni      7.866e-01  7.194e-01   1.093 0.274763    
+alkohol      3.863e-01  5.455e-01   0.708 0.479252    
+BikBarr     -5.005e-01  2.553e-01  -1.961 0.050541 .  
+stops        1.767e-01  1.661e-01   1.063 0.288123    
+OSMcross     2.398e-03  5.560e-02   0.043 0.965622    
+HostHot     -6.655e-01  3.667e-01  -1.815 0.070218 .  
+MotJun       3.573e+00  1.916e+00   1.865 0.062826 .  
+OSMcross2    4.489e-03  4.593e-03   0.978 0.328839    
+PriorRi      2.288e+00  7.369e-01   3.104 0.002026 ** 
+Scho        -8.380e-02  1.895e-01  -0.442 0.658486    
+SpecScho    -1.167e+01  2.655e+00  -4.395 1.38e-05 ***
+SecScho      3.809e+00  1.064e+00   3.581 0.000379 ***
+TraffLig    -8.579e-02  4.029e-01  -0.213 0.831479    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 9.124 on 452 degrees of freedom
+Multiple R-squared:  0.1174,	Adjusted R-squared:  0.08418 
+F-statistic: 3.536 on 17 and 452 DF,  p-value: 2.846e-06
+
