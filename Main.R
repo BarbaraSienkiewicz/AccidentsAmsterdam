@@ -25,9 +25,9 @@ Scenario5 <-"WHERE [a].[Antl_dod] != '0'"
 ################################################################################################################
 ############# USER INPUT #######################################################################################
 ## Select scenario or write your own WHERE statement
-condition <- Scenario1
+condition <- Scenario5
 ## Define text which will be added to files name to diffrientiate scenarios
-ScenarioName <- "Scenario1"
+ScenarioName <- "Scenario5"
 ################################################################################################################
 ## Create output directory
 OutDir <- paste("Output/",ScenarioName)
