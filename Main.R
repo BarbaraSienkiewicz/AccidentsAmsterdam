@@ -88,25 +88,25 @@ time <- Accidents$Tijdstip
 day <- Accidents$Dag_code
 month <- Accidents$Mnd_nummer
 year <- Accidents$Jaar_vkl
-severity3 <- Accidents$Ap3_code
-severity4 <- Accidents$Ap4_code
-severity5 <- Accidents$Ap5_code
-casualties <- Accidents$Antl_sla
-fatalities <- Accidents$Antl_dod
-injuries <- Accidents$Antl_gzh
-emergencyVictims <- Accidents$Antl_seh
-otherInjured <- Accidents$Antl_gov
-parties <- Accidents$Antl_ptj
-maneuver <- Accidents$Mne_code
-AccNature <- Accidents$Aol_id
-networkLevel <- Accidents$Niveaukop
-networkLevel2 <- Accidents$Wse_id
-maxspeed <- Accidents$Maxsnelhd
+sev3 <- Accidents$Ap3_code
+sev4 <- Accidents$Ap4_code
+sev5 <- Accidents$Ap5_code
+cas <- Accidents$Antl_sla
+fat <- Accidents$Antl_dod
+inj <- Accidents$Antl_gzh
+emVic <- Accidents$Antl_seh
+othInj <- Accidents$Antl_gov
+part <- Accidents$Antl_ptj
+maneu <- Accidents$Mne_code
+AccNat <- Accidents$Aol_id
+netLev <- Accidents$Niveaukop
+netLev2 <- Accidents$Wse_id
+maxspee <- Accidents$Maxsnelhd
 weather <- Accidents$Wgd_code_1
 
 ## Bind attributes
-accidents <- cbind(vlk, x, y, hour, time, day, month, year, severity3, severity4, severity5, casualties, fatalities, injuries, 
-              emergencyVictims, otherInjured, parties, maneuver, AccNature, networkLevel, networkLevel2, maxspeed, weather)
+accidents <- cbind(vlk, x, y, hour, time, day, month, year, sev3, sev4, sev5, cas, fat, inj, 
+              emVic, othInj, part, maneu, AccNat, netLev, netLev2, maxspee, weather)
 
 ## Create attributes data frame
 accidents <- data.frame(accidents)
@@ -176,7 +176,7 @@ hourDir <- paste(PloDir, "/HoursPlot.png")
 hourDir <- gsub(" ", "", hourDir)
 accidentsNOnulls <- data.frame(accidents$hour[accidents$hour != "NULL"])
 png(filename=hourDir, width = 1800, height = 800, units = "px")
-a <- qplot(factor(hour), data=accidentsNOnulls, geom="bar", fill=factor(severity3), main="Number of accidents per hour with their severity") + labs(fill = "Severity") + scale_fill_hue()
+a <- qplot(factor(hour), data=accidentsNOnulls, geom="bar", fill=factor(sev3), main="Number of accidents per hour with their severity") + labs(fill = "Severity") + scale_fill_hue()
 b <- a + scale_fill_manual(values = c("#990066", "#9999CC", "#66CC99"), labels = c("Fatalities", "Injuries", "Casualities"))
 c <- b + xlab("Hour") + ylab("Accident count") + xlim("0", "1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18" , "19", "20", "21", "22", "23")
 c
@@ -185,8 +185,8 @@ dev.off()
 ## Plot number of accidents per day
 DayDir <- paste(PloDir, "/DaysPlot.png") 
 DayDir <- gsub(" ", "", DayDir) 
-daysplot <- qplot(day,main="Number of accidents per day",ylab = "Number of accidents", xlab = "Day") + xlim("MA","DI", "WO","DO",  "VR",  "ZA", "ZO")
-png(filename=DayDir) 
+daysplot <- qplot(day,main="Number of accidents per day",ylab = "Number of accidents", xlab = "Day") + xlim("MA","DI","WO","DO","VR","ZA","ZO")
+png(filename=DayDir)
 plot(daysplot) 
 dev.off() 
 
@@ -194,7 +194,7 @@ dev.off()
 ## Plot number of accidents per road speed limit
 SpeedDir <- paste(PloDir, "/SpeedPlot.png")
 SpeedDir <- gsub(" ", "", SpeedDir)
-SpeedPlot <-as.numeric(as.character(maxspeed))
+SpeedPlot <-as.numeric(as.character(maxspee))
 SpeedPlot <- data.frame(SpeedPlot)
 SpeedPlottotals <- table(SpeedPlot)
 #rownames(SpeedPlottotals) <- c("15", "30",  "50",  "60",  "70",  "80",  "90", "100", "120", "130")
@@ -242,41 +242,41 @@ monthC <- CBS$Mnd_nummer
 yearC <- CBS$Jaar_vkl
 hourC <- CBS$Uur
 timeC <-CBS$Tijdstip
-severity3C <- CBS$Ap3_code
-severity4C <- CBS$Ap4_code
-severity5C <- CBS$Ap5_code
-fatalitiesC <- CBS$Antl_dod
-casualtiesC <-CBS$Antl_sla
-injuriesC <- CBS$Antl_gzh
-emergencyVictimsC <-CBS$Antl_seh
-otherInjuredC <- CBS$Antl_gov
-partiesC <- CBS$Antl_ptj
-maneuverC<- CBS$Mne_code
-networkLevelC <- CBS$Niveaukop
-networkLevel2C <- CBS$Wse_id
-maxspeedC <- CBS$Maxsnelhd
-weatherC <- CBS$Wgd_code_1
+sev3C <- CBS$Ap3_code
+sev4C <- CBS$Ap4_code
+sev5C <- CBS$Ap5_code
+fatC <- CBS$Antl_dod
+casC <-CBS$Antl_sla
+injC <- CBS$Antl_gzh
+emVicC <-CBS$Antl_seh
+othInjC <- CBS$Antl_gov
+partC <- CBS$Antl_ptj
+manC <- CBS$Mne_code
+netLevC <- CBS$Niveaukop
+netLev2C <- CBS$Wse_id
+maxspC <- CBS$Maxsnelhd
+weathC <- CBS$Wgd_code_1
 xC<- CBS$X_COORD
 yC <- CBS$Y_COORD
-populationC <- CBS$AANT_INW
-womenC<- CBS$AANT_VROUW
+popC <- CBS$AANT_INW
+womC<- CBS$AANT_VROUW
 menC<- CBS$AANT_VROUW
-age0_14 <- CBS$P_00_14_JR
-age15_24 <- CBS$P_15_24_JR
-age25_44 <- CBS$P_25_44_JR
-age45_64<- CBS$P_45_64_JR
-age65<- CBS$P_65_EO_JR
-marocco <- CBS$P_MAROKKO
+a0_14 <- CBS$P_00_14_JR
+a15_24 <- CBS$P_15_24_JR
+a25_44 <- CBS$P_25_44_JR
+a45_64<- CBS$P_45_64_JR
+a65<- CBS$P_65_EO_JR
+maroc <- CBS$P_MAROKKO
 NLIsl<- CBS$P_ANT_ARU
-surinam <- CBS$P_SURINAM
-turkey <- CBS$P_TURKIJE
-carsTot <- CBS$AUTO_TOT
-carsLand <- CBS$AUTO_LAND
-motor <- CBS$MOTOR_2W
+suri <- CBS$P_SURINAM
+turk <- CBS$P_TURKIJE
+carTo <- CBS$AUTO_TOT
+carLa <- CBS$AUTO_LAND
+mot <- CBS$MOTOR_2W
 ################################################################################################################
-#cbs <- cbind(vlk, xC, yC, dayC, monthC, yearC, hourC, timeC, severity3C, severity4C, severity5C,fatalitiesC, casualtiesC, injuriesC, emergencyVictimsC,
-#             otherInjuredC, partiesC, maneuverC, networkLevelC, networkLevel2C, maxspeedC, weatherC, populationC, womenC, menC, age0_14,
-#             age15_24, age25_44, age45_64, age65, marocco, dutchIslandsC, surinam, turkey, carsTot, carsLand, motor)
+#cbs <- cbind(vlk, xC, yC, dayC, monthC, yearC, hourC, timeC, severity3C, severity4C, severity5C,fatC, casC, injC, emVicC,
+#             othInjC, partC, manC, netLevC, netLev2C, maxspC, weathC, popC, womC, menC, a0_14,
+#             a15_24, a25_44, a45_64, a65, maroc, NLIsl, suri, turk, carTo, carLa, mot)
 
 cbs <- data.frame(CBS)
 

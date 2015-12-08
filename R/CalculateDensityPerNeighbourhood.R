@@ -52,7 +52,7 @@ Density <- function(SHPfilename, ScenarioName, OutputDirectory) {
   
   ## Mere accident density (accidentTab) with neighTab
   df <- merge(neighTab,accidentsTab,by.x= "ID", by.y = "neighID", all = TRUE)
-  colnames(df)[8] <- "accidents"
+  colnames(df)[19] <- "accidents"
   
   print(df)
   
@@ -86,7 +86,7 @@ Density <- function(SHPfilename, ScenarioName, OutputDirectory) {
     
     ## change column names
     factorname <- gsub(".shp", "", filename)
-    colnames(df)[j+8] <- factorname
+    colnames(df)[j+19] <- factorname
   }
   
   OutputDir <- paste(OutputDirectory, "/", tablename, ScenarioName, ".csv")
